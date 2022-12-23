@@ -1,7 +1,7 @@
 {
-  "name": "small-site-template",
+  "name": "feed-me",
   "version": "1.0.0",
-  "description": "A template for a small site using a simple PHP build process, TailwindCSS and AlpineJS",
+  "description": "Simple social cross-posting and feed-reading app in a single page of HTML+JS+CSS",
   "main": "tailwind.config.js",
   "scripts": {
     "build:dev": "npx tailwindcss build -i ./src/css/styles.css -o ./public/css/styles.css",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rosswintle/small-site-template.git"
+    "url": "git+https://github.com/rosswintle/feed-me.git"
   },
   "author": "Ross Wintle",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rosswintle/small-site-template/issues"
+    "url": "https://github.com/rosswintle/feed-me/issues"
   },
-  "homepage": "https://github.com/rosswintle/small-site-template#readme",
+  "homepage": "https://github.com/rosswintle/feed-me#readme",
   "devDependencies": {
     "tailwindcss": "^3.1.7",
     "@tailwindcss/forms": "^0.4"

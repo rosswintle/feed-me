@@ -1,15 +1,60 @@
-<?php extend('../templates/main.html', ['title' => 'Home Page']) ?>
+<?php extend('../templates/main.html', ['title' => 'Social Feed']) ?>
 
-<?php
-// Page content here
-// To include partials use:
-// includePart('../parts/some-part.html', ['param' => 'value'])
-?>
+<main x-data="feed" class="w-full px-8 md:w-1/2 md:max-w-screen-md md:mx-auto">
 
-<h1 class="mt-8 text-6xl text-center">Hello, World!</h1>
+    <h1 class="mt-8 text-6xl text-center mb-8">Feed me!</h1>
+    <nav class="flex justify-center mb-16">
+        <a href="#post" class="text-lg mr-12">Feed</a>
+        <a href="#settings" @click.prevent="settingsOpen = true" class="text-lg">Settings</a>
+    </nav>
+    <form action="">
+        <div class="text-right mb-2"><span x-text="newPostContent.length"></span> chars</div>
+        <!-- Post textarea -->
+        <textarea type="textarea" class="w-full rounded border-3" x-model="newPostContent"></textarea>
+        <!-- Post checkboxes -->
+        <div class="flex w-full justify-between items-start">
+            <div class="flex flex-col">
+                <div class="mb-2">
+                    <template x-if="settings.wordpressKey">
+                        <label for="wordpress"><input name="wordpress" id="wordpress" type="checkbox" x-model="postTargets['wordpress']" class="mr-2">WordPress</label>
+                    </template>
+                    <template x-if="! settings.wordpressKey">
+                        <span class="text-gray-600">WordPress</span>
+                    </template>
+                </div>
+                <div class="mb-2">
+                    <template x-if="settings.mastodonAccessToken">
+                        <label for="mastodon"><input name="mastodon" id="mastodon" type="checkbox" x-model="postTargets['mastodon']" class="mr-2">Mastodon</label>
+                    </template>
+                    <template x-if="! settings.mastodonAccessToken">
+                        <span class="text-gray-600">Mastodon</span>
+                    </template>
+                </div>
+            </div>
+            <!-- Post button -->
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" x-on:click.prevent="doPost">
+                Post
+            </button>
+        </div>
+    </form>
 
-<?php if (ENVIRONMENT === 'DEVELOPMENT') : ?>
-    <h2 class="mt-4 text-2xl text-center">Sssh, we're only testing!</h2>
-<?php endif; ?>
+
+    <h2 class="text-2xl font-bold mt-8 mb-8">Feed</h2>
+
+    <div id="feed">
+        <template x-for="item in items" :key="item.guid">
+            <article class="border-3 rounded-xl bg-teal-100 mb-12 px-8 py-6">
+                <h3 class="flex justify-between font-bold mb-2">
+                    <a :href="item.guid"><span x-text="item.title" x-bind:title="item.pubDate"></span></a>
+                    <a :href="item.sourceUrl"><span x-text="item.source"></span></a>
+                </h3>
+                <div x-html="item.description"></div>
+            </article>
+        </template>
+    </div>
+
+    <?php includePart('../parts/settings-modal.html') ?>
+</main>
+
 
 <?php endExtend(); ?>

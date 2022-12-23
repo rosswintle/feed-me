@@ -1,4 +1,16 @@
 <footer class="">
 </footer>
 
-<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script src="https://unpkg.com/dayjs@1"></script>
+<script src="https://unpkg.com/dayjs@1/plugin/relativeTime.js"></script>
+<script>
+    dayjs.extend(window.dayjs_plugin_relativeTime);
+</script>
+<script src="https://unpkg.com/dompurify/dist/purify.min.js"></script>
+<script src="https://unpkg.com/rss-parser@3.x.x/dist/rss-parser.min.js"></script>
+<script src="js/feed.js"></script>
+<!-- Alpine Plugins -->
+<script src="https://unpkg.com/@alpinejs/persist@3.10.5/dist/cdn.min.js"></script>
+<script src="https://unpkg.com/@alpinejs/focus@3.10.5/dist/cdn.min.js"></script>
+<!-- Alpine Core -->
+<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
