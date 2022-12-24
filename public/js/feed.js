@@ -89,6 +89,8 @@ document.addEventListener('alpine:init', () => {
                 wordpressUser: '',
                 wordpressKey: '',
                 mastodonInstanceUrl: '',
+                mastodonClientId: '',
+                mastodonClientSecret: '',
                 mastodonAuthCode: '',
                 mastodonAccessToken: '',
             }),
