@@ -32,6 +32,46 @@ class FeedSource {
     }
 }
 
+class PostingStatus {
+    constructor() {
+        this.posting = false;
+        this.posted = false;
+        this.error = false;
+        this.postedTimeout = null;
+    }
+
+    clearTimeout() {
+        if (this.postedTimeout) {
+            clearTimeout(this.postedTimeout);
+        }
+    }
+
+    setPosting() {
+        this.clearTimeout();
+        this.posting = true;
+        this.posted = false;
+        this.error = false;
+    }
+
+    setPosted() {
+        this.clearTimeout();
+        this.posting = false;
+        this.posted = true;
+        this.error = false;
+
+        this.postedTimeout = setTimeout(() => {
+            this.posted = false;
+        }, 5000);
+    }
+
+    setError() {
+        this.clearTimeout();
+        this.posting = false;
+        this.posted = false;
+        this.error = true;
+    }
+}
+
 document.addEventListener('alpine:init', () => {
     Alpine.data('feed', function () {
         return {
@@ -75,6 +115,13 @@ document.addEventListener('alpine:init', () => {
              * @type {boolean}
              */
             settingsOpen: false,
+
+            /**
+             * Posting statuses
+             */
+            wordpressStatus: new PostingStatus(),
+            mastodonStatus: new PostingStatus(),
+
 
             init() {
                 this.fetchFeeds();
@@ -150,6 +197,15 @@ document.addEventListener('alpine:init', () => {
             async doPost() {
                 let success = true;
 
+                // Set statuses.
+                if (this.postTargets.wordpress) {
+                    this.wordpressStatus.setPosting();
+                }
+                if (this.postTargets.mastodon) {
+                    this.mastodonStatus.setPosting();
+                }
+
+                // Do posts
                 if (this.postTargets.wordpress) {
                     success = success && (await this.postToWordpress());
                 }
@@ -184,6 +240,9 @@ document.addEventListener('alpine:init', () => {
                     }),
                 });
                 // TODO: Handle errors.
+
+                this.wordpressStatus.setPosted();
+
                 return true;
             },
 
@@ -286,6 +345,8 @@ document.addEventListener('alpine:init', () => {
                 if (response.status !== 200) {
                     return false;
                 }
+
+                this.mastodonStatus.setPosted();
 
                 return true;
             }

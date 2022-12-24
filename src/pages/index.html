@@ -15,16 +15,50 @@
         <div class="flex w-full justify-between items-start">
             <div class="flex flex-col">
                 <div class="mb-2">
+                    <!-- WordPress checkbox -->
                     <template x-if="settings.wordpressKey">
-                        <label for="wordpress"><input name="wordpress" id="wordpress" type="checkbox" x-model="postTargets['wordpress']" class="mr-2">WordPress</label>
+                        <div class="flex items-center">
+                            <!-- Label and checkbox -->
+                            <label for="wordpress" class="inline-block"><input name="wordpress" id="wordpress" type="checkbox" x-model="postTargets['wordpress']" class="mr-2">WordPress</label>
+                            <!-- Loading spinner -->
+                            <span id="wordpress-loading" class="inline-block ml-2" x-show="wordpressStatus.posting">
+                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                                </svg>
+                            </span>
+                            <!-- Success icon -->
+                            <span id="wordpress-success" class="inline-block ml-2" x-show="wordpressStatus.posted">
+                                <svg class="h-5 w-5 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </span>
+                        </div>
                     </template>
                     <template x-if="! settings.wordpressKey">
                         <span class="text-gray-600">WordPress</span>
                     </template>
                 </div>
+                <!-- Mastodon checkbox -->
                 <div class="mb-2">
                     <template x-if="settings.mastodonAccessToken">
-                        <label for="mastodon"><input name="mastodon" id="mastodon" type="checkbox" x-model="postTargets['mastodon']" class="mr-2">Mastodon</label>
+                        <div class="flex items-center">
+                            <!-- Label and checkbox -->
+                            <label for="mastodon"><input name="mastodon" id="mastodon" type="checkbox" x-model="postTargets['mastodon']" class="mr-2">Mastodon</label>
+                            <!-- Loading spinner -->
+                            <span id="mastodon-loading" class="inline-block ml-2" x-show="mastodonStatus.posting">
+                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                                </svg>
+                            </span>
+                            <!-- Success icon -->
+                            <span id="mastodon-success" class="inline-block ml-2" x-show="mastodonStatus.posted">
+                                <svg class="h-5 w-5 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </span>
+                        </div>
                     </template>
                     <template x-if="! settings.mastodonAccessToken">
                         <span class="text-gray-600">Mastodon</span>
