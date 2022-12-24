@@ -78,11 +78,7 @@ document.addEventListener('alpine:init', () => {
             /**
              * @type {FeedSource[]}
              */
-            feedUrls: this.$persist([
-                // new FeedSource('https://rosswintle.uk/feed', 'rosswintle.uk'),
-                // new FeedSource('https://fosstodon.org/@ross.rss', '@ross'),
-                // new FeedSource('https://fosstodon.org/@alexstandiford.rss', '@alexstandiford'),
-            ]),
+            feedUrls: this.$persist([]),
 
             settings: this.$persist({
                 wordpressUrl: '',
@@ -98,7 +94,12 @@ document.addEventListener('alpine:init', () => {
             /**
              * @type {FeedItem[]}
              */
-            items: [],
+            items: this.$persist([]),
+
+            /**
+             * @type {Number}
+             */
+            lastItemFetch: this.$persist(0),
 
             /**
              * @type {String}
@@ -137,10 +138,22 @@ document.addEventListener('alpine:init', () => {
             },
 
             async fetchFeeds() {
+                if (!this.lastItemFetch || this.lastItemFetch === 0) {
+                    this.lastItemFetch = Date.now() - ((60 + 1) * 1000);
+                }
+                let nextUpdate = this.lastItemFetch + (60 * 1000);
+                if (nextUpdate > Date.now()) {
+                    let secondsToNextUpdate = (nextUpdate - Date.now()) / 1000;
+                    sfDebug(`Using cached feeds. ${secondsToNextUpdate.toFixed(0)}s until next update.`);
+                    return;
+                }
+
                 sfDebug('Fetching feeds...');
                 this.items = [];
 
                 this.feedUrls.forEach(async url => await this.fetchFeed(url), this);
+
+                this.lastItemFetch = Date.now();
             },
 
             /**
