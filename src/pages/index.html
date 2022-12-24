@@ -9,13 +9,15 @@
     </nav>
     <form action="">
         <div class="text-right mb-2"><span x-text="newPostContent.length"></span> chars</div>
+
         <!-- Post textarea -->
-        <textarea type="textarea" class="w-full rounded border-3" x-model="newPostContent"></textarea>
+        <textarea type="textarea" rows="8" class="w-full rounded border-3" x-model="newPostContent"></textarea>
+
         <!-- Post checkboxes -->
         <div class="flex w-full justify-between items-start">
             <div class="flex flex-col">
+                <!-- WordPress checkbox -->
                 <div class="mb-2">
-                    <!-- WordPress checkbox -->
                     <template x-if="settings.wordpressKey">
                         <div class="flex items-center">
                             <!-- Label and checkbox -->
@@ -65,6 +67,7 @@
                     </template>
                 </div>
             </div>
+
             <!-- Post button -->
             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" x-on:click.prevent="doPost">
                 Post
